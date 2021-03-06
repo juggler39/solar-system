@@ -196,6 +196,20 @@
     })
 
 
+    const $dimension = document.getElementById('dimension');
+
+    $dimension.addEventListener('click', () => {
+        if ($dimension.textContent === '2D') {
+            $dimension.textContent = '3D'
+            system.setCamera({ ...config.camera, angle: 0 });
+        }
+        else {
+            $dimension.textContent = '2D'
+            system.setCamera({ ...config.camera });
+        }
+    })
+
+
     animate();
 
 

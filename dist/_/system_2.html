@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #system {
+            position: relative;
+            background: #000
+        }
+        #system > * {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+        }
+        .orbit {
+            border: 2px dashed #999;
+        }
+        .sun {
+            background: #FF0;
+        }
+        .planet {
+            background: #EEE;
+        }
+        .moon {
+            background: #999;
+        }
+        .moon-orbit {
+            border: 2px dashed #666;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="system"></div>
+    <script src="../planetary-system.js"></script>
+    <script src="../config.js"></script>
+    <script>
+
+        function append (className, size) {
+            const $div = document.createElement('div');
+            $div.className = className;
+            $div.style.width = size + 'px';
+            $div.style.height = size + 'px';
+            return $system.appendChild($div);
+        }
+
+        const $system = document.getElementById('system');
+        const config = PlanetaryConfig;
+
+        $system.style.width = config.size.canvas + 'px';
+        $system.style.height = config.size.canvas + 'px';
+
+
+        const maxOrbit = Math.max(...config.planets.map(planet => planet.orbit));
+        const minSunDist = (config.size.canvas - config.size.sun) / (maxOrbit * 2 + 1);
+        const moonOrbitSize = minSunDist - config.size.moon;
+
+        for (let i = maxOrbit; i > 0; i--) {
+            const orbitSize = config.size.sun + i * minSunDist * 2;
+            const $orbit = append('orbit', orbitSize);
+            const $moonOrbit = append('moon-orbit', moonOrbitSize);
+            $moonOrbit.style.transform = `translate(-50%, -50%) translateX(${orbitSize / 2}px)`
+            const $planet = append('planet', config.size.planet);
+            $planet.style.transform = `translate(-50%, -50%) translateX(${orbitSize / 2}px)`
+
+            const $moonRight = append('moon', config.size.moon);
+            $moonRight.style.transform = `translate(-50%, -50%) translateX(${orbitSize / 2 + moonOrbitSize / 2}px)`
+
+            const $moonLeft = append('moon', config.size.moon);
+            $moonLeft.style.transform = `translate(-50%, -50%) translateX(${orbitSize / 2 - moonOrbitSize / 2}px)`
+        }
+
+        append('sun', config.size.sun);
+
+
+        //
+        // for (let i = maxOrbit; i > 0; i--) {
+        //     append('moon-orbit', config.size.sun + i * minSunDist * 2);
+        // }
+
+
+
+
+
+
+
+
+    </script>
+
+</body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        #system {
+            position: relative;
+            background: #000;
+            /*transform: scale(5.7);*/
+            transform-origin: 0 0;
+        }
+        #system > * {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            border-radius: 50%;
+        }
+        .ps-orbit {
+            border: 2px dashed #999;
+            pointer-events: none;
+        }
+        .sun {
+            background: #FF0;
+        }
+
+        .ps-moon {
+            background: #999;
+        }
+        .ps-moon-orbit {
+            border: 2px dashed #666;
+            pointer-events: none;
+        }
+        .ps-planet {
+            text-align: center;
+            background: #EEE;
+        }
+
+    </style>
+</head>
+<body>
+    <div id="system"></div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
+    <script src="planetary-config.js"></script>
+    <script src="planetary-system.js"></script>
+    <script src="utils.js"></script>
+    <script src="classes.js"></script>
+    <script src="index.js"></script>
+</body>
+</html>

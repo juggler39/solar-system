@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+
+        .ps-item
+
+    </style>
+</head>
+<body>
+
+    <div class="ps-scene">
+        <div class="ps-item depth-0 orbit-0 index-0"></div>
+    </div>
+
+    <script>
+
+
+        const planets = [
+            {
+                orbit: 0,
+                data: {
+
+                }
+            },
+            {
+                orbit: 1,
+                moons: [
+                    {
+                        orbit: 1
+                    },
+                    {
+                        orbit: 1
+                    }
+                ]
+            },
+            {
+                orbit: 1,
+                moons: [
+                    {
+                        orbit: 1
+                    },
+                    {
+                        orbit: 1
+                    }
+                ]
+            }
+        ]
+
+
+        let orbits = [
+            { planets: [] },
+            { planets: []},
+            { planets: []},
+            { planets: []}
+        ]
+
+        orbits[0].planets = [
+            { moons: [] },
+            { moons: [] },
+            { moons: [] },
+            { moons: [] }
+        ]
+
+        orbits[0].planets[0].moons = [
+            {},
+            {},
+            {},
+            {}
+        ]
+
+        class Orbit {
+            constructor (item) {
+                this.radius = 100;
+                this.duration = 20;
+                this.angle = 0;
+                this.item = item;
+            }
+        }
+
+        class Item {
+            constructor (orbit) {
+                this.$el = document.createElement('div');
+                this.size = 100;
+                this.angle = 90;
+                this.orbit = orbit;
+            }
+            update () {
+                this.transform = ''
+            }
+            draw () {
+                let transform = ''
+                let item = this;
+                while (item) {
+                    transform = item.transform + transform;
+                    item = item.orbit.item;
+                }
+                this.$el.style.transform = transform
+            }
+        }
+
+        const items = new Array(100);
+
+        items.forEach(item => {
+            item.draw();
+        })
+
+
+        function drawItem () {
+
+            let transform = `translateX(-50%) translateY(-50%)`
+
+            // $item.style.transform = `translateX(-50%) translateY(-50%) `
+        }
+
+        const system ={};
+
+        const sunOrbit = system.orbits[0];
+        const planetOrbits = system.orbits.slice(1);
+        const planets = planetOrbits.map(orbit => orbit.items).flat();
+
+        planets.forEach(planet => {
+            planet.addEventListener('click', () => {
+                gsap.to(planet, { radius: 0 })
+                planets.forEach(_planet => {
+                    if (_planet !== planet) {
+                        gsap.to(planet, { radius: 1000 })
+                    }
+                })
+                // move to center
+            })
+        })
+
+
+    </script>
+
+</body>
+</html>

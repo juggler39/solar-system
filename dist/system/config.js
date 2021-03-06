@@ -2,7 +2,7 @@ const planetaryConfig = {
 
     camera: {
         perspective: 1500,
-        angle: 0
+        angle: 60
     },
 
     speed: 50 / 1000, // px per second
@@ -10,7 +10,7 @@ const planetaryConfig = {
     sizes: {
         canvas: 1024,
         planet: 24,
-        moon: 12,
+        moon: 16,
         sun: 48
     },
 

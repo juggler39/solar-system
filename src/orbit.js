@@ -24,6 +24,7 @@ export default class Orbit {
     }
 
     render () {
+        this.$node.style.width = this.$node.style.height = this.size + 'px';
         this.$node.style.transform = `translate(${this.origin.x - this.size / 2}px, ${this.origin.y - this.size / 2}px)`
     }
 

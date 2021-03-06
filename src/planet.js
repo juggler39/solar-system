@@ -24,6 +24,7 @@ export default class Planet {
         this.$node = Utils.createNode(`ps-item ps-orbit-${this.orbit.index} ps-planet-${this.index} ps-planet`, this.size);
 
         this.moonOrbit = new Orbit({
+            index: this.orbit.index,
             class: `ps-planet-${this.index} ps-planet-orbit`,
             origin: this,
             size: this.system.orbitSizes.moon,
@@ -50,7 +51,7 @@ export default class Planet {
     }
 
     render () {
-        this.$node.style.transform = `translate(${this.x - this.size / 2}px, ${this.y - this.size / 2}px)`
+        this.$node.style.transform = `translate(${this.x - this.size / 2}px, ${this.y - this.size / 2}px) rotateX(-${this.system.camera.angle}deg)`
     }
     
 }

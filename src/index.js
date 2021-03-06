@@ -16,7 +16,6 @@ export default class PlanetarySystem {
         this.config = config;
 
         this.$node = $node;
-        this.$node.style.width = this.$node.style.height = this.config.sizes.canvas + 'px';
         this.$node.classList.add('ps-scene');
 
         this.$orbits = Utils.createNode('ps-canvas ps-canvas--orbits');
@@ -55,14 +54,17 @@ export default class PlanetarySystem {
     // Calculate orbit sizes
     // ----------------------
 
-    getOrbitSizes (max) {
-        if (!max) max = this.config.orbits.length - 1;
+    getOrbitSizes (max = this.maxOrbit) {
         const { canvas, sun, moon } = this.config.sizes;
         const minSunDist = (canvas - sun) / (max * 2 + 1);
         let orbits = [0];
         for (let i = 1; i <= max; i++) { orbits.push(sun + i * minSunDist * 2) }
         orbits.moon = minSunDist - moon;
         return orbits;
+    }
+    
+    get maxOrbit () {
+        return this.config.orbits.length - 1;
     }
 
     get orbitSizes () {
@@ -78,6 +80,9 @@ export default class PlanetarySystem {
     setCamera (camera) {
         const transform = camera.angle ? `perspective(${camera.perspective}px) translateY(50%) rotateX(${camera.angle}deg) translateY(-50%)` : '';
         this.$orbits.style.transform = this.$planets.style.transform = transform;
+        this.$node.style.width = this.config.sizes.canvas + 'px';
+        this.$node.style.height = Utils.getSceneHeight(this.config.sizes.canvas, camera) + 'px';
+        console.log()
         this.camera = camera;
     }
 

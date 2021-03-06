@@ -19,6 +19,6 @@ export default class Moon {
     }
 
     render () {
-        this.$node.style.transform = `translate(${this.x - this.size / 2}px, ${this.y - this.size / 2}px)`
+        this.$node.style.transform = `translate(${this.x - this.size / 2}px, ${this.y - this.size / 2}px) rotateX(-${this.system.camera.angle}deg)`
     }
 }

@@ -10,10 +10,11 @@
         }
         .ps-canvas {
             position: absolute;
-            top: 0;
+            left: 0;
             bottom: 0;
             width: 100%;
             padding-top: 100%;
+            transform-style: preserve-3d;
         }
         .ps-canvas > * {
             position: absolute;
@@ -22,21 +23,58 @@
             transform: translate(-50%, -50%);
             border-radius: 50%;
         }
-        .ps-orbit {
+
+
+        /* orbits */
+
+        .ps-canvas--orbits .ps-orbit {
             border: 2px dashed #999;
             pointer-events: none;
         }
-        .sun {
+        .ps-canvas--orbits .ps-orbit-0 {
+            display: none;
+        }
+        .ps-canvas--orbits .ps-planet-orbit {
+            opacity: 0.1;
+            transition: opacity .3s;
+        }
+        .ps-canvas--orbits .ps-planet-orbit.active,
+        .ps-canvas--orbits .ps-planet-orbit.selected {
+            opacity: 1;
+        }
+
+
+        /* sun */
+
+        .ps-canvas--planets .ps-orbit-0.ps-planet-0 {
             background: #FF0;
         }
 
+
+        /* moons */
+
         .ps-moon {
             background: #999;
+            opacity: 0.1;
+            transition: opacity .3s;
         }
-        .ps-moon-orbit {
-            border: 2px dashed #666;
-            pointer-events: none;
+        .ps-moon.active,
+        .ps-moon.selected {
+            opacity: 1;
         }
+
+
+
+
+        .ps-orbit {
+
+        }
+        .ps-item.ps-orbit-0.ps-planet-0 {
+
+        }
+
+
+
         .ps-planet {
             text-align: center;
             background: #EEE;
@@ -45,21 +83,12 @@
     </style>
 </head>
 <body>
-    <div id="system">
 
-<!--        <div class="ps-item ps-planet ps-orbit-0 ps-planet-index-0"></div>-->
-<!--        <div class="ps-item ps-orbit-1 ps-planet-index-0 ps-planet"></div>-->
-<!--        <div class="ps-item ps-orbit-1 ps-planet-index-0 ps-moon-index-0 ps-moon"></div>-->
-<!--        <div class="ps-item ps-orbit-1 ps-planet-index-0 ps-moon-index-1 ps-moon"></div>-->
+    <div class="ps-orbit ps-orbit-0 ps-sun-orbit"></div>
+    <div class="ps-orbit ps-orbit-1 ps-sun-orbit"></div>
+    <div class="ps-orbit ps-orbit-1 ps-planet-0 ps-planet-orbit"></div>
 
-<!--        <div class="ps-ring ps-orbit-0 ps-sun-ring"></div>-->
-<!--        <div class="ps-ring ps-orbit-1 ps-sun-ring"></div>-->
-<!--        <div class="ps-ring ps-orbit-1 ps-planet-index-0 ps-planet-ring"></div>-->
-<!--        <div class="ps-ring ps-orbit-1 ps-planet-index-0 ps-planet-ring"></div>-->
-
-<!--        <div class="ps-ring ps-planet-ring ps-orbit-1 index-1"></div>-->
-
-    </div>
+    <div id="system"></div>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
     <script src="../planetary-system.js"></script>
     <script src="config.js"></script>

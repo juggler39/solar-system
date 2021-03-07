@@ -107,6 +107,7 @@ const planetarySystem = (() => {
 
         planets.forEach(planet => planet !== selected && setTranslate(planet, {
             duration,
+            scale: 1,
             distance: orbitSizes[planet.orbit.index + 1] / 2
         }))
 
@@ -133,8 +134,7 @@ const planetarySystem = (() => {
         links[planets.indexOf(selected)].classList.remove('active');
         toggleClass(selected, 'selected', false);
 
-
-        setTranslate(selected, { // ?????????????????????????????????
+        setTranslate(selected, {
             duration,
             scale: 1,
             distance: orbitSizes[selected.orbit.index] / 2
@@ -160,6 +160,7 @@ const planetarySystem = (() => {
 
             planets.forEach(planet => planet !== selected && setTranslate(planet, {
                 duration,
+                scale: 1,
                 distance: orbitSizes[planet.orbit.index] / 2
             }))
 

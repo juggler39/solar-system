@@ -64,9 +64,9 @@ export default class Planet {
     }
 
     render () {
-        // if (this.orbit.index === 1 && this.index === 0) {
-        //     console.log(this.scale)
-        // }
+        if (this.orbit.index === 1 && this.index === 0) {
+            console.log(this.scale)
+        }
         this.$node.style.transform = `translate(${this.x - this.size / 2}px, ${this.y - this.size / 2}px) rotateX(-${this.system.camera.angle}deg) scale(${this.scale})`
     }
     

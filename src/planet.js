@@ -21,6 +21,7 @@ export default class Planet {
         this.angle = this.orbit.angle + this.index * 360 / this.orbit.planets.length;
         this.distance = this.orbit.size / 2;
         this.size = getSize(this);
+        this.scale = 1;
         this.$node = Utils.createNode(`ps-item ps-orbit-${this.orbit.index} ps-planet-${this.index} ps-planet`, this.size);
 
         this.moonOrbit = new Orbit({
@@ -39,6 +40,18 @@ export default class Planet {
                 system: this.system
             })
         })
+
+        if (config.image) {
+            const $image = document.createElement('img');
+            $image.src = config.image;
+            this.$node.appendChild($image);
+        }
+
+        if (config.title) {
+            const $title = document.createElement('p');
+            $title.textContent = config.title;
+            this.$node.appendChild($title);
+        }
         
     }
 
@@ -51,7 +64,10 @@ export default class Planet {
     }
 
     render () {
-        this.$node.style.transform = `translate(${this.x - this.size / 2}px, ${this.y - this.size / 2}px) rotateX(-${this.system.camera.angle}deg)`
+        // if (this.orbit.index === 1 && this.index === 0) {
+        //     console.log(this.scale)
+        // }
+        this.$node.style.transform = `translate(${this.x - this.size / 2}px, ${this.y - this.size / 2}px) rotateX(-${this.system.camera.angle}deg) scale(${this.scale})`
     }
     
 }

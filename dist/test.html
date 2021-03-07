@@ -1,0 +1,168 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        * {
+            box-sizing: border-box;
+        }
+        body {
+            overflow: hidden;
+        }
+        .view {
+            width: 512px;
+            height: 512px;
+            position: absolute;
+            /*top: 50%;*/
+            /*left: 50%;*/
+            /*margin: -256px 0 0 -256px;*/
+            transform-origin: 0 0;
+            background: #000;
+            opacity: 0.3;
+        }
+        .point {
+            position: absolute;
+            left: 0;
+            top: 0;
+            width: 16px;
+            height: 16px;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+            background: #F00;
+        }
+
+        .view.s05 {
+            transform: scale(0.5);
+        }
+
+        .view.s1 {
+            outline: 2px solid #F00;
+        }
+        .view.s1 {
+            transform: scale(2);
+        }
+
+
+
+        /*.view.frame .point {*/
+        /*    width: 8px;*/
+        /*    height: 8px;*/
+        /*    background: #F00;*/
+        /*}*/
+        /*.view.main {*/
+        /*    background: #000;*/
+
+        /*}*/
+        /*.view.main .point {*/
+        /*    width: 16px;*/
+        /*    height: 16px;*/
+        /*    background: #FF0;*/
+        /*}*/
+
+    </style>
+</head>
+<body>
+
+    <div class="view s1" data-scale="1">
+        <div class="point"></div>
+    </div>
+    <div class="view s2" data-scale="2">
+        <div class="point"></div>
+    </div>
+
+    <div class="view s05" data-scale="0.5">
+        <div class="point"></div>
+    </div>
+
+
+    <script>
+
+        const origin = {
+            x: 128,
+            y: 128
+        }
+
+        Array.from(document.querySelectorAll('.point')).forEach($point => {
+            $point.style.left = origin.x + 'px';
+            $point.style.top = origin.y + 'px';
+        })
+
+
+        Array.from(document.querySelectorAll('.view')).forEach($view => {
+            const scale = parseFloat($view.getAttribute('data-scale'));
+            // const tx = origin.x - origin.x * scale;
+            // const ty = origin.y - origin.y * scale;
+            // $view.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`
+        })
+
+        // [...document.querySelectorAll('.point')].
+
+        const mx = 64;
+        const my = 64;
+
+        const s1mx = mx / 0.5;
+        const s1my = mx / 0.5;
+
+
+        document.querySelector('.s05').addEventListener('click', event => {
+
+
+
+        })
+
+        // const $main = document.querySelector('.main');
+        // const $frame = document.querySelector('.frame');
+        // const $fPoint = $frame.querySelector('.point');
+        // const $mPoint = $main.querySelector('.point');
+        //
+        //
+
+        //
+        // const scale = 2;
+        //
+        // $fPoint.style.left = origin.x + 'px';
+        // $fPoint.style.top = origin.y + 'px';
+        // $mPoint.style.left = origin.x + 'px';
+        // $mPoint.style.top = origin.y + 'px';
+        //
+        // const tx = origin.x - origin.x * scale;
+        // const ty = origin.y - origin.y * scale;
+        // $main.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`
+
+
+        // $frame.addEventListener('mousemove', event => {
+        //     $fPoint.
+        // })
+
+
+        // const scale = 0.5
+        //
+
+        //
+        // $frame.addEventListener('click', event => {
+        //
+        //     const rect = $frame.getBoundingClientRect();
+        //     const ox = event.clientX - rect.left;
+        //     const oy = event.clientY - rect.top;
+        //
+        //     console.log(ox, oy);
+        //
+        //     $fPoint.style.left = ox + 'px';
+        //     $fPoint.style.top = oy + 'px';
+        //     $mPoint.style.left = ox + 'px';
+        //     $mPoint.style.top = oy + 'px';
+        //
+        //     const tx = ox - ox * scale
+        //     const ty = oy - oy * scale
+        //
+        //     $main.style.transform = `translate(${tx}px, ${ty}px) scale(${scale})`
+        //
+        //     // $main.style.transform = `translate(${ox}px, ${oy}px)`
+        //
+        // })
+
+    </script>
+
+</body>
+</html>

@@ -82,7 +82,6 @@ export default class PlanetarySystem {
         this.$orbits.style.transform = this.$planets.style.transform = transform;
         this.$node.style.width = this.config.sizes.canvas + 'px';
         this.$node.style.height = Utils.getSceneHeight(this.config.sizes.canvas, camera) + 'px';
-        console.log()
         this.camera = camera;
     }
 

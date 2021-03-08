@@ -1,6 +1,6 @@
-
-import Utils from './utils'
-import Orbit from './orbit'
+import './index.css'
+import Utils from '@/utils'
+import Orbit from '@/classes/orbit'
 
 
 export default class PlanetarySystem {
@@ -15,14 +15,19 @@ export default class PlanetarySystem {
 
         this.config = config;
 
+
+        // create nodes
+
         this.$node = $node;
         this.$node.classList.add('ps-scene');
-
         this.$orbits = Utils.createNode('ps-canvas ps-canvas--orbits');
         this.$planets = Utils.createNode('ps-canvas ps-canvas--planets');
         this.$node.appendChild(this.$orbits);
         this.$node.appendChild(this.$planets);
-        
+
+
+        // create orbits
+
         this.orbits = config.orbits.map((config, index) => {
             return new Orbit({
                 ...config,
@@ -34,6 +39,9 @@ export default class PlanetarySystem {
             });
         });
 
+
+        // append nodes
+
         this.orbits.forEach(orbit => {
             this.$orbits.appendChild(orbit.$node);
             orbit.planets.forEach(planet => {
@@ -42,6 +50,9 @@ export default class PlanetarySystem {
                 planet.moons.forEach(moon => this.$planets.appendChild(moon.$node));
             })
         })
+
+
+        // render
 
         this.setCamera(config.camera);
         this.render();
@@ -74,7 +85,7 @@ export default class PlanetarySystem {
 
 
     // ----------------------
-    // Camera
+    // Setting camera
     // ----------------------
 
     setCamera (camera) {
@@ -93,15 +104,42 @@ export default class PlanetarySystem {
 
     render () {
         this.orbits.forEach(orbit => {
-            orbit.render();
+            // orbit.render();
             orbit.planets.forEach(planet => {
                 planet.render();
-                planet.moonOrbit.render();
-                planet.moons.forEach(moon => moon.render());
+                // planet.moonOrbit.render();
+                // planet.moons.forEach(moon => moon.render());
             })
         })
 
     }
+
+
+    /*
+        EVENTS
+        - zoom
+        - select
+    */
+
+    /*
+        STATE
+        - paused
+        - planet.selected
+        - timeScale
+        - zoom
+    */
+
+    /*
+        METHODS
+        select (planet)
+        deselect()
+        setTimeScale()
+        play()
+        pause()
+        resize
+        zoomTo
+
+    */
 
 
 }

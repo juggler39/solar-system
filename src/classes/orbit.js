@@ -1,5 +1,5 @@
-import Utils from './utils'
-import Planet from './planet'
+import Utils from '@/utils'
+import Planet from '@/classes/planet'
 
 const defaults = {
     index: 0,

@@ -16,6 +16,7 @@ const planetarySystem = (() => {
     const planets = orbits.map(orbit => orbit.planets).flat();
 
 
+    console.log(system)
 
     // ----------------------
     // Variables
@@ -30,6 +31,19 @@ const planetarySystem = (() => {
     // ----------------------
     // Helpers
     // ----------------------
+
+    // function animate () {
+    //
+    //     planets.forEach(planet => {
+    //         planet.angle += 0.5;
+    //         planet.render();
+    //     })
+    //
+    //     requestAnimationFrame(animate)
+    // }
+    //
+    // animate();
+
 
     function setSpin (item) {
         item.spin = gsap.to(item, {
@@ -206,7 +220,7 @@ const planetarySystem = (() => {
     planets.forEach(planet => {
 
         setSpin(planet);
-        planet.moons.forEach(setSpin);
+        // planet.moons.forEach(setSpin);
 
         planet.$node.addEventListener('mouseenter', () => {
             if (planet === selected) return;

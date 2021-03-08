@@ -47,6 +47,12 @@ module.exports = {
         })
     ],
 
+    resolve: {
+        alias: {
+            '@': absPath('src')
+        }
+    },
+
     output: {
         library: 'PlanetarySystem',
         libraryTarget: 'umd',

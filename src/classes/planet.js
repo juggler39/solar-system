@@ -1,6 +1,6 @@
-import Utils from './utils'
-import Orbit from './orbit'
-import Moon from './moon'
+import Utils from '@/utils'
+import Orbit from '@/classes/orbit'
+import Moon from '@/classes/moon'
 
 const defaults = {
     moons: []
@@ -66,8 +66,13 @@ export default class Planet {
     render () {
         if (this.orbit.index === 1 && this.index === 0) {
             console.log(this.scale)
+            // matrix3d(a, b, 0, 0, c, d, 0, 0, 0, 0, 1, 0, tx, ty, 0, 1).
+
         }
-        this.$node.style.transform = `translate(${this.x - this.size / 2}px, ${this.y - this.size / 2}px) rotateX(-${this.system.camera.angle}deg) scale(${this.scale})`
+        this.$node.style.transform = `translate3d(${this.x - this.size / 2}px, ${this.y - this.size / 2}px, 0) rotateX(-${this.system.camera.angle}deg) scale(${this.scale})`
+
+
+
     }
     
 }

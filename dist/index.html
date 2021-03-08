@@ -3,18 +3,24 @@
 <head>
     <meta charset="UTF-8">
     <title>Title</title>
-    <link rel="preconnect" href="https://fonts.gstatic.com">
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;700;900&display=swap">
+    <link rel="stylesheet" href="planetary-system.css">
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header></header>
     <section>
 
 
-        <!--
-            Heading
-        -->
+        <!-- stars -->
+
+        <canvas class="stars" id="stars"></canvas>
+
+
+        <!-- planetary system -->
+
+        <div class="system" id="system"></div>
+
+
+        <!-- heading -->
 
         <div class="heading">
             <h1>Welcome to the World of the LightSail</h1>
@@ -22,72 +28,56 @@
         </div>
 
 
+        <!-- zoom -->
 
-        <!--
-            Article
-        -->
-
-        <article>
-
-
-            <!-- stars -->
-
-            <canvas class="stars"></canvas>
+        <div class="zoom">
+            <a id="zoom-out"></a>
+            <p id="zoom-val">57%</p>
+            <a id="zoom-in"></a>
+        </div>
 
 
-            <!-- planetary system -->
+        <!-- controls -->
 
-            <div class="map">
-                <div class="view">
-                    <div class="system"></div>
-                </div>
-            </div>
-
-
-            <!-- zoom -->
-
-            <div class="zoom">
-                <a>+</a>
-                <p>57%</p>
-                <a>-</a>
-            </div>
+        <div class="controls">
+            <a class="u-btn" id="slower">Slower</a>
+            <a class="u-btn" id="faster">Faster</a>
+            <a class="u-btn" id="stop">Stop</a>
+            <a class="u-btn u-hidden" id="play">Play</a>
+            <a class="u-btn" id="d2">2D</a>
+            <a class="u-btn u-hidden" id="d3">3D</a>
+        </div>
 
 
-            <!-- controls -->
+        <!-- note -->
 
-            <div class="controls">
-                <a>Slower</a>
-                <a>Faster</a>
-                <a>Stop</a>
-                <a>2D</a>
-            </div>
-
-
-            <!-- note -->
-
-            <div class="note">
+        <div class="note" id="note">
+            <div class="note-title">
+                <h1>Ttidasdas dasd asdasd</h1>
                 <a>x</a>
-                <h1></h1>
-                <p></p>
             </div>
+            <div class="note-text">asdasdas asdasd</div>
+        </div>
 
 
-            <!-- navigation -->
+        <!-- navigation -->
 
-            <div class="nav"></div>
-
-
-        </article>
+        <div class="nav" id="nav">
+            <a class="u-btn">asdsadasdasd</a>
+            <a class="u-btn">asdsadasdasd</a>
+            <a class="u-btn">asdsadasdasd</a>
+            <a class="u-btn">asdsadasdasd</a>
+            <a class="u-btn">asdsadasdasd</a>
+            <a class="u-btn">asdsadasdasd</a>
+            <a class="u-btn">asdsadasdasd</a>
+            <a class="u-btn">asdsadasdasd</a>
+        </div>
 
 
     </section>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.6.0/gsap.min.js"></script>
-    <script src="https://promo.github.io/wheel-indicator/js/wheel-indicator.js"></script>
     <script src="planetary-system.js"></script>
-    <script src="stars.js"></script>
     <script src="config.js"></script>
-    <script src="system.js"></script>
-    <script src="map.js"></script>
-    <script src="controls.js"></script>
+    <script src="scripts.js"></script>
 </body>
 </html>

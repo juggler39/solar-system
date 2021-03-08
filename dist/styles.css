@@ -358,6 +358,9 @@ article {
     color: #FFFFFF;
     border-color: #9FC5F1
 }
+.ps-planet.disable {
+    opacity: 0;
+}
 
 
 /* moon */

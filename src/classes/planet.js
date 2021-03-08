@@ -2,58 +2,78 @@ import Utils from '@/utils'
 import Orbit from '@/classes/orbit'
 import Moon from '@/classes/moon'
 
-const defaults = {
-    moons: []
-}
-
-function getSize (planet) {
-    if (planet.size) return planet.size;
-    const sizes = planet.system.config.sizes;
-    if (planet.index === 0 && planet.orbit.index === 0) return sizes.sun;
-    return sizes.planet;
-}
-
 export default class Planet {
-    
-    constructor (config) {
 
-        Object.assign(this, defaults, config);
-        this.angle = this.orbit.angle + this.index * 360 / this.orbit.planets.length;
-        this.distance = this.orbit.size / 2;
-        this.size = getSize(this);
-        this.scale = 1;
-        this.$node = Utils.createNode(`ps-item ps-orbit-${this.orbit.index} ps-planet-${this.index} ps-planet`, this.size);
+
+
+    // ----------------------
+    // Constructor
+    // ----------------------
+
+    constructor (options) {
+
+
+        // options
+
+        this.index = options.index;
+        this.orbit = options.orbit;
+        this.system = options.system;
+        this.moons = options.moons || [];
+
+        this.size = options.size || options.system.options.sizes.planet;
+        this.scale = options.scale || 1;
+        this.angle = options.orbit.angle + this.index * 360 / options.orbit.planets.length;
+        this.distance = options.orbit.size / 2;
+
+        this.image = options.image;
+        this.label = options.label;
+        this.note = options.note;
+
+
+        // create moon orbit
 
         this.moonOrbit = new Orbit({
             index: this.orbit.index,
-            class: `ps-planet-${this.index} ps-planet-orbit`,
+            class: `ps-planet-${this.index} ps-planet-ring`,
             origin: this,
             size: this.system.orbitSizes.moon,
             system: this.system
         })
 
-        this.moons = this.moons.map((config, index) => {
+
+        // create moons
+
+        this.moons = this.moons.map((options, index) => {
             return new Moon({
-                ...config,
+                ...options,
                 index,
                 planet: this,
                 system: this.system
             })
         })
 
-        if (config.image) {
-            const $image = document.createElement('img');
-            $image.src = config.image;
-            this.$node.appendChild($image);
-        }
 
-        if (config.title) {
-            const $title = document.createElement('p');
-            $title.textContent = config.title;
-            this.$node.appendChild($title);
-        }
+        // create nodes
+
+        this.$node = Utils.createNode(`ps-item ps-planet ps-planet-${this.index} ps-ring-${this.orbit.index}`, this.size);
+        this.$image = Utils.createImage(this.image);
+        this.$label = Utils.createLabel(this.label);
+        this.$node.appendChild(this.$image);
+        this.$node.appendChild(this.$label);
+        this.system.$items.appendChild(this.$node);
+
+
+        // render
+
+        this.render();
         
     }
+
+
+
+    // ----------------------
+    // Coordinates
+    // ----------------------
 
     get x () {
         return this.distance * Math.cos(this.angle * Math.PI / 180);
@@ -63,17 +83,16 @@ export default class Planet {
         return this.distance * Math.sin(this.angle * Math.PI / 180)
     }
 
+
+
+    // ----------------------
+    // Renderer
+    // ----------------------
+
     render () {
-        if (this.orbit.index === 1 && this.index === 0) {
-            console.log(this.scale)
-            // matrix3d(a, b, 0, 0, c, d, 0, 0, 0, 0, 1, 0, tx, ty, 0, 1).
-
-        }
         this.$node.style.transform = `translate3d(${this.x - this.size / 2}px, ${this.y - this.size / 2}px, 0) rotateX(-${this.system.camera.angle}deg) scale(${this.scale})`
-
-
-
     }
-    
+
+
 }
 

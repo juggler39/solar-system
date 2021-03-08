@@ -27,7 +27,7 @@
 
 /* rings */
 
-.ps-canvas--rings .ps-ring {
+.ps-canvas--orbits .ps-orbit {
     border: 2px dashed #CAE1FE;
     pointer-events: none;
 }

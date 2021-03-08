@@ -34,14 +34,14 @@ export default class Planet {
 
         // create moon orbit
 
-        this.moonOrbit = new MoonOrbit({
-            moon: true,
-            index: this.orbit.index,
-            class: `ps-planet-${this.index} ps-planet-ring`,
-            origin: this,
-            size: this.system.normalOrbitSizes.moon,
-            system: this.system
-        })
+        this.moonOrbit = {};
+        // this.moonOrbit = new MoonOrbit({
+        //     index: this.orbit.index,
+        //     class: `ps-planet-${this.index} ps-planet-ring`,
+        //     origin: this,
+        //     size: this.system.normalOrbitSizes.moon,
+        //     system: this.system
+        // })
 
 
         // create moons

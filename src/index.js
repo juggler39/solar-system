@@ -1,8 +1,7 @@
 import './index.css'
 import Utils from '@/utils'
 import Sun from '@/objects/sun'
-import Planet from '@/objects/planet' // fix circular dependency
-import Orbit from '@/objects/orbit'
+import PlanetOrbit from '@/objects/planet-orbit'
 import Scene from '@/scene/scene'
 
 
@@ -24,9 +23,9 @@ export default class PlanetarySystem {
         this.$node = $node;
         this.$node.classList.add('ps-system');
         this.$scene = Utils.createNode('ps-scene');
-        this.$rings = Utils.createNode('ps-canvas ps-canvas--rings');
+        this.$orbits = Utils.createNode('ps-canvas ps-canvas--orbits');
         this.$items = Utils.createNode('ps-canvas ps-canvas--items');
-        this.$scene.appendChild(this.$rings);
+        this.$scene.appendChild(this.$orbits);
         this.$scene.appendChild(this.$items);
         this.$node.appendChild(this.$scene);
 
@@ -34,12 +33,13 @@ export default class PlanetarySystem {
         // configuration
 
         this.setCamera(options.camera);
+        this.normalOrbitSizes = this.getOrbitSizes(this.maxOrbit);
+        this.activeOrbitSizes = this.getOrbitSizes(this.maxOrbit + 1);
         this.listeners = [];
         this.active = null;
         this.paused = false;
         this.timeScale = 1;
         this.scene = new Scene(this);
-
 
 
 
@@ -59,12 +59,9 @@ export default class PlanetarySystem {
 
         // create orbits
 
-        this.orbits = options.orbits.map((options, index) => new Orbit({
+        this.orbits = options.orbits.map((options, index) => new PlanetOrbit({
             ...options,
             index,
-            class: 'ps-sun-orbit',
-            origin: { x: 0, y: 0 },
-            size: this.normalOrbitSizes[index],
             system: this
         }));
 
@@ -92,14 +89,6 @@ export default class PlanetarySystem {
         return this.options.orbits.length;
     }
 
-    get normalOrbitSizes () {
-        return this.getOrbitSizes(this.maxOrbit);
-    }
-
-    get activeOrbitSizes () {
-        return this.getOrbitSizes(this.maxOrbit + 1);
-    }
-
 
 
     // ----------------------
@@ -108,7 +97,7 @@ export default class PlanetarySystem {
 
     setCamera (camera) {
         const transform = camera.angle ? `perspective(${camera.perspective}px) translateY(50%) rotateX(${camera.angle}deg) translateY(-50%)` : '';
-        this.$rings.style.transform = this.$items.style.transform = transform;
+        this.$orbits.style.transform = this.$items.style.transform = transform;
         this.$scene.style.width = this.options.sizes.canvas + 'px';
         this.$scene.style.height = Utils.getSceneHeight(this.options.sizes.canvas, camera) + 'px';
         this.camera = camera;

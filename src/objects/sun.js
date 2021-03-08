@@ -42,11 +42,14 @@ export default class Sun {
         })
 
 
-        // listeners
+        // DOM listeners
 
         this.$node.addEventListener('click', () => {
             this.system.emit('deactivate');
         })
+
+
+        // event listeners
 
         this.system.on('activate', () => {
             this.translate.play();

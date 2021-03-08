@@ -5,11 +5,10 @@
     // Globals
     // ----------------------
 
-    const config = planetaryConfig;
-    const system = new PlanetarySystem(config);
-    const $map = document.querySelector('.map');
-    const $view = $map.querySelector('.view');
-    const $system = $view.querySelector('.system');
+    const $map = document.getElementById('map');
+    const system = new PlanetarySystem($map, planetaryConfig);
+    console.log(system)
+
 
 
 
@@ -21,11 +20,11 @@
     const $faster = document.getElementById('faster');
 
     $slower.addEventListener('click', () => {
-        system.setSpeed(system.speed / 1.5);
+        system.setTimeScale(system.timeScale / 1.5);
     })
 
     $faster.addEventListener('click', () => {
-        system.setSpeed(system.speed * 1.5);
+        system.setTimeScale(system.timeScale * 1.5);
     })
 
 
@@ -39,14 +38,14 @@
 
     $stop.addEventListener('click', () => {
         system.pause();
-        $stop.classList.add('hidden');
-        $play.classList.remove('hidden');
+        $stop.classList.add('u-hidden');
+        $play.classList.remove('u-hidden');
     })
 
     $play.addEventListener('click', () => {
         system.resume();
-        $play.classList.add('hidden');
-        $stop.classList.remove('hidden');
+        $play.classList.add('u-hidden');
+        $stop.classList.remove('u-hidden');
     })
 
 
@@ -59,24 +58,24 @@
     const $zoomOut = document.getElementById('zoom-out');
     const $zoomVal = document.getElementById('zoom-val');
 
-    const origin = {
-        x: system.sizes.canvas / 2,
-        y: system.sizes.canvas / 2,
+    function getZoomOrigin () {
+        const { left, top, width, height } = $map.getBoundingClientRect();
+        return { x: left + width, y: top + height }
     }
 
     $zoomIn.addEventListener('click', () => {
-        system.zoomTo(origin, system.zoom + 0.1);
+        system.scene.zoomTo(getZoomOrigin(), system.scene.zoom + 0.1);
     })
 
     $zoomOut.addEventListener('click', () => {
-        system.zoomTo(origin, system.zoom - 0.1);
+        system.scene.zoomTo(getZoomOrigin(), system.scene.zoom - 0.1);
     })
 
     system.on('zoom', value => {
         $zoomVal.textContent = Math.floor(100 * value) + '%';
     })
 
-    $zoomVal.textContent = Math.floor(100 * system.zoom) + '%';
+    $zoomVal.textContent = Math.floor(100 * system.scene.zoom) + '%';
 
 
 
@@ -89,14 +88,14 @@
 
     $d2.addEventListener('click', () => {
         system.setCamera({ angle: 0 });
-        $d2.classList.add('hidden');
-        $d3.classList.remove('hidden');
+        $d2.classList.add('u-hidden');
+        $d3.classList.remove('u-hidden');
     })
 
     $d3.addEventListener('click', () => {
-        system.setCamera(config.camera);
-        $d3.classList.add('hidden');
-        $d2.classList.remove('hidden');
+        system.setCamera(planetaryConfig.camera);
+        $d3.classList.add('u-hidden');
+        $d2.classList.remove('u-hidden');
     })
 
 
@@ -107,24 +106,24 @@
 
     const $nav = document.getElementById('nav');
 
-    system.orbits.forEach(orbit => {
-        orbit.planets.forEach(planet => {
-            if (!planet.title) return;
-            const $link = document.createElement('a')
-            $link.textContent = planet.title;
-            $link.addEventListener('click', () => planet.select());
-            $nav.appendChild($link);
-        })
-    })
+    // system.orbits.forEach(orbit => {
+    //     orbit.planets.forEach(planet => {
+    //         if (!planet.title) return;
+    //         const $link = document.createElement('a')
+    //         $link.textContent = planet.title;
+    //         $link.addEventListener('click', () => planet.select());
+    //         $nav.appendChild($link);
+    //     })
+    // })
 
-    system.on('planet:select', planet => {
-    })
-
-    system.on('planet:deselect', planet => {
-        Array.from($nav.children).forEach($link => {
-
-        })
-    })
+    // system.on('planet:select', planet => {
+    // })
+    //
+    // system.on('planet:deselect', planet => {
+    //     Array.from($nav.children).forEach($link => {
+    //
+    //     })
+    // })
 
 
 
@@ -141,13 +140,13 @@
 
     }
 
-    system.on('planet:click', planet => {
-        showNote(planet);
-    })
-
-    system.on('moon:click', moon => {
-        showNote(moon);
-    })
+    // system.on('planet:click', planet => {
+    //     showNote(planet);
+    // })
+    //
+    // system.on('moon:click', moon => {
+    //     showNote(moon);
+    // })
 
 
 
@@ -158,17 +157,17 @@
     const $stars = document.getElementById('stars');
     const starsCtx = $stars.getContext('2d');
 
-    const area = 4000;
+    const starArea = 64 * 64;
     let stars = [];
 
     function minmax (min, max) {
         return min + Math.random() * (max - min);
     }
 
-    function create () {
+    function createStar () {
         let star = {};
-        star.x = Math.random() * canvas.width;
-        star.y = Math.random() * canvas.height;
+        star.x = Math.random() * $stars.width;
+        star.y = Math.random() * $stars.height;
         star.size = minmax(1, 3);
         star.alpha = 1;
         const duration = minmax(1, 3);
@@ -177,26 +176,26 @@
         return star;
     }
 
-    function animate () {
-        ctx.clearRect(0, 0, canvas.width, canvas.height);
+    function animateStars () {
+        starsCtx.clearRect(0, 0, $stars.width, $stars.height);
         stars.forEach(star => {
-            ctx.fillStyle = `rgba(10, 105, 210, ${star.alpha})`
-            ctx.fillRect(star.x, star.y, star.size, star.size);
+            starsCtx.fillStyle = `rgba(255, 255, 255, ${star.alpha})`
+            starsCtx.fillRect(star.x, star.y, star.size, star.size);
         })
-        requestAnimationFrame(animate)
+        requestAnimationFrame(animateStars);
     }
 
-    function resize () {
-        const w = article.offsetWidth;
-        const h = article.offsetHeight;
-        canvas.width = w;
-        canvas.height = h;
+    function resizeStars () {
+        const w = $stars.parentNode.offsetWidth;
+        const h = $stars.parentNode.offsetHeight;
+        $stars.width = w;
+        $stars.height = h;
         stars.forEach(star => star.animation.kill());
-        stars = new Array(Math.round(w * h / area)).fill().map(create);
+        stars = new Array(Math.round(w * h / starArea)).fill().map(createStar);
     }
 
-    // resize();
-    // animate();
-    // window.addEventListener('resize', resize);
+    resizeStars();
+    animateStars();
+    window.addEventListener('resize', resizeStars);
 
 })();

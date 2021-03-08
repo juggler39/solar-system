@@ -1,6 +1,9 @@
 import './index.css'
 import Utils from '@/utils'
-import Orbit from '@/classes/orbit'
+import Sun from '@/objects/sun'
+import Planet from '@/objects/planet' // fix circular dependency
+import Orbit from '@/objects/orbit'
+import Scene from '@/scene/scene'
 
 
 export default class PlanetarySystem {
@@ -11,51 +14,63 @@ export default class PlanetarySystem {
     // Constructor
     // ----------------------
 
-    constructor ($node, config) {
+    constructor ($node, options) {
 
-        this.config = config;
+        this.options = options;
 
 
         // create nodes
 
         this.$node = $node;
-        this.$node.classList.add('ps-scene');
-        this.$orbits = Utils.createNode('ps-canvas ps-canvas--orbits');
-        this.$planets = Utils.createNode('ps-canvas ps-canvas--planets');
-        this.$node.appendChild(this.$orbits);
-        this.$node.appendChild(this.$planets);
+        this.$node.classList.add('ps-system');
+        this.$scene = Utils.createNode('ps-scene');
+        this.$rings = Utils.createNode('ps-canvas ps-canvas--rings');
+        this.$items = Utils.createNode('ps-canvas ps-canvas--items');
+        this.$scene.appendChild(this.$rings);
+        this.$scene.appendChild(this.$items);
+        this.$node.appendChild(this.$scene);
+
+
+        // configuration
+
+        this.setCamera(options.camera);
+        this.listeners = [];
+        this.active = null;
+        this.paused = false;
+        this.timeScale = 1;
+        this.scene = new Scene(this);
+
+
+
+
+        // listeners
+
+        // this.on('activate', planet => this.active = planet);
+        // this.on('deactivate', () => this.active = null);
+
+
+        // create sun
+
+        this.sun = new Sun({
+            ...options.sun,
+            system: this
+        });
 
 
         // create orbits
 
-        this.orbits = config.orbits.map((config, index) => {
-            return new Orbit({
-                ...config,
-                index,
-                class: 'ps-sun-orbit',
-                origin: { x: 0, y: 0 },
-                size: this.orbitSizes[index],
-                system: this
-            });
-        });
+        this.orbits = options.orbits.map((options, index) => new Orbit({
+            ...options,
+            index,
+            class: 'ps-sun-orbit',
+            origin: { x: 0, y: 0 },
+            size: this.normalOrbitSizes[index],
+            system: this
+        }));
 
+        // console.log(this.normalOrbitSizes);
+        // console.log(this.activeOrbitSizes);
 
-        // append nodes
-
-        this.orbits.forEach(orbit => {
-            this.$orbits.appendChild(orbit.$node);
-            orbit.planets.forEach(planet => {
-                this.$planets.appendChild(planet.$node);
-                this.$orbits.appendChild(planet.moonOrbit.$node);
-                planet.moons.forEach(moon => this.$planets.appendChild(moon.$node));
-            })
-        })
-
-
-        // render
-
-        this.setCamera(config.camera);
-        this.render();
 
     }
 
@@ -65,21 +80,24 @@ export default class PlanetarySystem {
     // Calculate orbit sizes
     // ----------------------
 
-    getOrbitSizes (max = this.maxOrbit) {
-        const { canvas, sun, moon } = this.config.sizes;
-        const minSunDist = (canvas - sun) / (max * 2 + 1);
-        let orbits = [0];
-        for (let i = 1; i <= max; i++) { orbits.push(sun + i * minSunDist * 2) }
+    getOrbitSizes (length) {
+        const { canvas, sun, moon } = this.options.sizes;
+        const minSunDist = (canvas - sun) / (length * 2 + 1);
+        let orbits = Array.from({ length }, (x, i) => sun + (i + 1) * minSunDist * 2);
         orbits.moon = minSunDist - moon;
         return orbits;
     }
     
     get maxOrbit () {
-        return this.config.orbits.length - 1;
+        return this.options.orbits.length;
     }
 
-    get orbitSizes () {
-        return this.getOrbitSizes();
+    get normalOrbitSizes () {
+        return this.getOrbitSizes(this.maxOrbit);
+    }
+
+    get activeOrbitSizes () {
+        return this.getOrbitSizes(this.maxOrbit + 1);
     }
 
 
@@ -90,56 +108,55 @@ export default class PlanetarySystem {
 
     setCamera (camera) {
         const transform = camera.angle ? `perspective(${camera.perspective}px) translateY(50%) rotateX(${camera.angle}deg) translateY(-50%)` : '';
-        this.$orbits.style.transform = this.$planets.style.transform = transform;
-        this.$node.style.width = this.config.sizes.canvas + 'px';
-        this.$node.style.height = Utils.getSceneHeight(this.config.sizes.canvas, camera) + 'px';
+        this.$rings.style.transform = this.$items.style.transform = transform;
+        this.$scene.style.width = this.options.sizes.canvas + 'px';
+        this.$scene.style.height = Utils.getSceneHeight(this.options.sizes.canvas, camera) + 'px';
         this.camera = camera;
     }
 
 
 
     // ----------------------
-    // Renderer
+    // Events
     // ----------------------
 
-    render () {
-        this.orbits.forEach(orbit => {
-            // orbit.render();
-            orbit.planets.forEach(planet => {
-                planet.render();
-                // planet.moonOrbit.render();
-                // planet.moons.forEach(moon => moon.render());
-            })
-        })
+    on (event, handler) {
+        this.listeners[event] = this.listeners[event] || [];
+        this.listeners[event].push(handler);
+    }
 
+    off (event, handler) {
+        if (!this.listeners[event]) return;
+        const index = this.listeners[event].indexOf(handler);
+        if (index > -1) this.listeners[event].splice(index, 1);
+    }
+
+    emit (event, param) {
+        if (!this.listeners[event]) return;
+        this.listeners[event].forEach(handler => handler(param));
     }
 
 
-    /*
-        EVENTS
-        - zoom
-        - select
-    */
 
-    /*
-        STATE
-        - paused
-        - planet.selected
-        - timeScale
-        - zoom
-    */
+    // ----------------------
+    // Animation
+    // ----------------------
 
-    /*
-        METHODS
-        select (planet)
-        deselect()
-        setTimeScale()
-        play()
-        pause()
-        resize
-        zoomTo
+    resume () {
+        this.paused = false;
+        this.emit('resume');
+    }
 
-    */
+    pause () {
+        this.paused = true;
+        this.emit('pause');
+    }
+
+    setTimeScale (timeScale) {
+        this.timeScale = timeScale;
+        this.emit('timescale', this.timeScale);
+    }
+
 
 
 }

@@ -5,8 +5,8 @@
 
 .ps-scene {
     position: relative;
-    /*outline: 1px solid #F00;*/
     transform-origin: 0 0;
+    outline: 1px solid #F00;
 }
 .ps-canvas {
     position: absolute;
@@ -25,33 +25,33 @@
 }
 
 
-/* orbits */
+/* rings */
 
-.ps-canvas--orbits .ps-orbit {
+.ps-canvas--rings .ps-ring {
     border: 2px dashed #CAE1FE;
     pointer-events: none;
 }
-.ps-canvas--orbits .ps-orbit-0 {
-    display: none;
-}
-.ps-canvas--orbits .ps-planet-orbit {
-    opacity: 0.1;
-    transition: opacity .3s;
-}
-.ps-canvas--orbits .ps-planet-orbit.active,
-.ps-canvas--orbits .ps-planet-orbit.selected {
-    opacity: 1;
-}
+/*.ps-canvas--orbits .ps-orbit-0 {*/
+/*    display: none;*/
+/*}*/
+/*.ps-canvas--orbits .ps-planet-orbit {*/
+/*    opacity: 0.1;*/
+/*    transition: opacity .3s;*/
+/*}*/
+/*.ps-canvas--orbits .ps-planet-orbit.active,*/
+/*.ps-canvas--orbits .ps-planet-orbit.selected {*/
+/*    opacity: 1;*/
+/*}*/
 
 
-/* sun */
+/*!* sun *!*/
 
-.ps-canvas--planets .ps-orbit-0.ps-planet-0 p {
-    background: #FF0;
-}
+/*.ps-canvas--planets .ps-orbit-0.ps-planet-0 p {*/
+/*    background: #FF0;*/
+/*}*/
 
 
-/* items */
+/*!* items *!*/
 
 .ps-item img {
     position: absolute;
@@ -60,64 +60,67 @@
     height: 100%;
     transform: translateX(-50%);
 }
-
-
-/* planet */
-
-.ps-planet {
-    text-align: center;
-}
-.ps-planet p {
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-top: 4px;
-    transform: translateX(-50%);
-    background: #D2E5FF;
-    border: 1px solid #FFFFFF;
-    border-radius: 2px;
-    font-size: 6px;
-    text-align: center;
-    padding: 2px 4px;
-    transition: color .3s, background .3s, border-color .3s;
-}
-.ps-planet.active p,
-.ps-planet.selected p {
-    background: #0A69D2;
-    color: #FFFFFF;
-    border-color: #9FC5F1
-}
-.ps-planet.disable {
-    opacity: 0;
+.ps-item p {
+    display: none;
 }
 
 
-/* moon */
+/*!* planet *!*/
 
-.ps-moon {
-    opacity: 0;
-    transition: opacity .3s;
-}
-/*.ps-moon.ps-orbit-1.ps-planet-0 {*/
+/*.ps-planet {*/
+/*    text-align: center;*/
+/*}*/
+/*.ps-planet p {*/
+/*    position: absolute;*/
+/*    top: 100%;*/
+/*    left: 50%;*/
+/*    margin-top: 4px;*/
+/*    transform: translateX(-50%);*/
+/*    background: #D2E5FF;*/
+/*    border: 1px solid #FFFFFF;*/
+/*    border-radius: 2px;*/
+/*    font-size: 6px;*/
+/*    text-align: center;*/
+/*    padding: 2px 4px;*/
+/*    transition: color .3s, background .3s, border-color .3s;*/
+/*}*/
+/*.ps-planet.active p,*/
+/*.ps-planet.selected p {*/
+/*    background: #0A69D2;*/
+/*    color: #FFFFFF;*/
+/*    border-color: #9FC5F1*/
+/*}*/
+/*.ps-planet.disable {*/
+/*    opacity: 0;*/
+/*}*/
+
+
+/*!* moon *!*/
+
+/*.ps-moon {*/
+/*    opacity: 0;*/
+/*    transition: opacity .3s;*/
+/*}*/
+/*!*.ps-moon.ps-orbit-1.ps-planet-0 {*!*/
+/*!*    opacity: 1;*!*/
+/*!*}*!*/
+/*.ps-moon p {*/
+/*    position: absolute;*/
+/*    top: 100%;*/
+/*    left: 50%;*/
+/*    margin-top: 4px;*/
+/*    transform: translateX(-50%);*/
+/*    background: #D2E5FF;*/
+/*    border: 1px solid #FFFFFF;*/
+/*    border-radius: 2px;*/
+/*    font-size: 4px;*/
+/*    text-align: center;*/
+/*    padding: 2px 4px;*/
+/*    transition: color .3s, background .3s, border-color .3s;*/
+/*}*/
+/*.ps-moon.active,*/
+/*.ps-moon.selected {*/
 /*    opacity: 1;*/
 /*}*/
-.ps-moon p {
-    position: absolute;
-    top: 100%;
-    left: 50%;
-    margin-top: 4px;
-    transform: translateX(-50%);
-    background: #D2E5FF;
-    border: 1px solid #FFFFFF;
-    border-radius: 2px;
-    font-size: 4px;
-    text-align: center;
-    padding: 2px 4px;
-    transition: color .3s, background .3s, border-color .3s;
-}
-.ps-moon.active,
-.ps-moon.selected {
-    opacity: 1;
-}
 
 

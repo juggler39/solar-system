@@ -29,23 +29,44 @@ export default class Sun {
         this.system.$items.appendChild(this.$node);
 
 
+        // translate animation
+
+        this.translate = gsap.to(this, {
+            duration: this.system.options.durations.translate,
+            distance: Math.sqrt(2) * (this.system.options.sizes.canvas - this.size) / 2,
+            paused: true,
+            ease: Power1.easeInOut,
+            onUpdate: () => {
+                this.setTransform();
+            }
+        })
+
+
         // listeners
 
         this.$node.addEventListener('click', () => {
-            // deselect
+            this.system.emit('deactivate');
         })
+
+        this.system.on('activate', () => {
+            this.translate.play();
+        });
+
+        this.system.on('deactivate', () => {
+            this.translate.reverse();
+        });
 
 
         // render
 
-        this.render();
+        this.setTransform();
 
     }
 
 
 
     // ----------------------
-    // Coordinates
+    // Style setters
     // ----------------------
 
     get x () {
@@ -56,13 +77,7 @@ export default class Sun {
         return this.distance * Math.sin(this.angle * Math.PI / 180)
     }
 
-
-
-    // ----------------------
-    // Renderer
-    // ----------------------
-
-    render () {
+    setTransform () {
         this.$node.style.transform = `translate(${this.x - this.size / 2}px, ${this.y - this.size / 2}px) rotateX(-${this.system.camera.angle}deg) scale(${this.scale})`
     }
 

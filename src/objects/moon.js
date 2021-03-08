@@ -20,7 +20,8 @@ export default class Moon {
         this.size = options.size || options.system.options.sizes.moon;
         this.scale = options.scale || 1;
         this.angle = options.index * 360 / options.planet.moons.length;
-        this.distance = options.system.orbitSizes.moon / 2;
+        this.distance = options.system.normalOrbitSizes.moon / 2;
+        this.opacity = 0;
 
         this.image = options.image;
         this.label = options.label;
@@ -37,17 +38,69 @@ export default class Moon {
         this.system.$items.appendChild(this.$node);
 
 
-        // render
+        // spin animation
 
-        this.render();
+        this.spin = gsap.to(this, {
+            duration: 2 * Math.PI * this.distance * this.system.options.speed,
+            angle: this.angle + 360,
+            repeat: -1,
+            paused: true,
+            ease: Power0.easeNone,
+            onUpdate: () => {
+                this.setTransform();
+            }
+        });
+
+
+        // fade animation
+
+        this.fade = gsap.to(this, {
+            opacity: 1,
+            duration: this.system.options.durations.fade,
+            paused: true,
+            ease: Power1.easeInOut,
+            onStart: () => {
+                if (!this.system.paused) this.spin.play();
+                else this.setTransform();
+            },
+            onUpdate: () => {
+                this.setOpacity();
+            },
+            onReverseComplete: () => {
+                this.spin.pause();
+            },
+        })
+
+
+        // event listeners
+
+        this.system.on('pause', () => {
+            this.spin.pause();
+        })
+
+        this.system.on('enter', planet => {
+            if (planet.moons.includes(this)) this.fade.play();
+        })
+
+        this.system.on('leave', planet => {
+            if (planet.moons.includes(this)) this.fade.reverse();
+        })
+
+        this.setOpacity();
+
 
     }
 
 
 
+
     // ----------------------
-    // Coordinates
+    // Styles setters
     // ----------------------
+
+    setOpacity () {
+        this.$node.style.opacity = this.opacity;
+    }
 
     get x () {
         return this.planet.x + this.distance * Math.cos(this.angle * Math.PI / 180);
@@ -57,13 +110,7 @@ export default class Moon {
         return this.planet.y + this.distance * Math.sin(this.angle * Math.PI / 180)
     }
 
-
-
-    // ----------------------
-    // Renderer
-    // ----------------------
-
-    render () {
+    setTransform () {
         this.$node.style.transform = `translate3d(${this.x - this.size / 2}px, ${this.y - this.size / 2}px, 0) rotateX(-${this.system.camera.angle}deg) scale(${this.scale})`
     }
 

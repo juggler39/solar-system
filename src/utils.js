@@ -1,10 +1,22 @@
 export default {
 
-    createNode (className, size, tag = 'div') {
-        const $node = document.createElement(tag);
+    createNode (className, size) {
+        const $node = document.createElement('div');
         $node.className = className;
         if (size) $node.style.width = $node.style.height = size + 'px';
         return $node;
+    },
+
+    createImage (src) {
+        const $img = document.createElement('img');
+        $img.src = src;
+        return $img;
+    },
+
+    createLabel (label) {
+        const $label = document.createElement('p');
+        $label.textContent = label;
+        return $label;
     },
 
     getSceneHeight (size, { perspective, angle }) {

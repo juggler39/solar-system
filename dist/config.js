@@ -5,6 +5,11 @@ const planetaryConfig = {
         angle: 0
     },
 
+    durations: {
+        fade: 0.5,
+        translate: 1
+    },
+
     speed: 50 / 1000, // px per second
 
     sizes: {

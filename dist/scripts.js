@@ -60,7 +60,7 @@
 
     function getZoomOrigin () {
         const { left, top, width, height } = $map.getBoundingClientRect();
-        return { x: left + width, y: top + height }
+        return { x: left + width / 2, y: top + height / 2 }
     }
 
     $zoomIn.addEventListener('click', () => {

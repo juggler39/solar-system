@@ -85,6 +85,7 @@ export default class MoonOrbit {
         this._resize = gsap.to(this, {
             duration: this.system.options.durations.translate,
             size,
+            ease: Power1.easeInOut,
             onUpdate: () => {
                 if (!this.opacity) return;
                 this.setSize();

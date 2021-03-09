@@ -120,19 +120,19 @@ export default class Planet {
         this.system.on('activate', planet => {
             if (planet === this) {
                 this.active = true;
-                this.move(0);
+                this.move(0, this.system.options.sizes.sun / this.size);
                 if (!this.system.paused) this.spin.pause();
             }
             else {
                 this.active = false;
-                this.move(this.system.activeOrbitSizes[this.orbit.index + 1] / 2);
+                this.move(this.system.activeOrbitSizes[this.orbit.index + 1] / 2, 1);
                 if (!this.system.paused) this.spin.resume();
             }
         })
 
         this.system.on('deactivate', () => {
             this.active = false;
-            this.move(this.system.normalOrbitSizes[this.orbit.index] / 2);
+            this.move(this.system.normalOrbitSizes[this.orbit.index] / 2, 1);
             if (!this.system.paused) this.spin.resume();
         });
 
@@ -145,11 +145,13 @@ export default class Planet {
     // Helpers
     // ----------------------
 
-    move (distance) {
+    move (distance, scale) {
         this._move && this._move.kill();
         this._move = gsap.to(this, {
             duration: this.system.options.durations.translate,
             distance,
+            scale,
+            ease: Power1.easeInOut,
             onUpdate: () => {
                 this.setTransform();
             }

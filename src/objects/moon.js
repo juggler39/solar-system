@@ -92,16 +92,16 @@ export default class Moon {
 
         this.system.on('activate', planet => {
             if (planet.moons.includes(this)) {
-                this.move(this.system.activeOrbitSizes[0] / 2);
+                this.move(this.system.activeOrbitSizes[0] / 2, this.system.options.sizes.planet / this.size);
             }
             else {
-                this.move(this.system.activeOrbitSizes.moon / 2);
+                this.move(this.system.activeOrbitSizes.moon / 2, 1);
                 this.fade.reverse();
             }
         })
 
         this.system.on('deactivate', () => {
-            this.move(this.system.normalOrbitSizes.moon / 2);
+            this.move(this.system.normalOrbitSizes.moon / 2, 1);
             this.fade.reverse();
         })
 
@@ -117,11 +117,13 @@ export default class Moon {
     // Helpers
     // ----------------------
 
-    move (distance) {
+    move (distance, scale) {
         this._move && this._move.kill();
         this._move = gsap.to(this, {
             duration: this.system.options.durations.translate,
             distance,
+            scale,
+            ease: Power1.easeInOut,
             onUpdate: () => {
                 if (!this.opacity) return;
                 this.setTransform();

@@ -63,6 +63,7 @@ export default class Sun {
         // render
 
         this.setTransform();
+        this.system.on('camera', () => this.setTransform());
 
     }
 

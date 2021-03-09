@@ -87,6 +87,7 @@ export default class Moon {
         })
 
         this.$node.addEventListener('click', () => {
+            if (!this.planet.active) return;
             this.system.emit('click', this);
         })
 

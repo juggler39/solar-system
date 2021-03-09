@@ -48,8 +48,8 @@ export default class Scene {
 
         const { left, top } = this.system.$node.getBoundingClientRect();
 
-        const x = origin.x - left + this.padding.left;
-        const y = origin.y - top + this.padding.top;
+        const x = origin.x - left - this.padding.left;
+        const y = origin.y - top - this.padding.top;
 
         const x0 = (x - this.x) / this.scale;
         const y0 = (y - this.y) / this.scale;

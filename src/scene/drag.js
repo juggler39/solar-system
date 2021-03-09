@@ -58,7 +58,7 @@ export default function (scene) {
     document.addEventListener('mouseup', end);
     document.addEventListener('mouseleave', end);
     scene.system.$node.addEventListener('touchstart', start);
-    document.addEventListener('touchmove', move);
+    document.addEventListener('touchmove', move, { passive: false });
     document.addEventListener('touchend', end);
     document.addEventListener('touchcancel', end);
 

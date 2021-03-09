@@ -136,17 +136,32 @@
     const $noteText = $note.querySelector('p');
     const $noteClose = $note.querySelector('a');
 
-    function showNote () {
-
+    function showNote (item) {
+        const rect = item.$node.getBoundingClientRect();
+        $note.style.left = rect.left + rect.width / 2 + 'px'
+        $note.style.top = rect.top + rect.height / 2 + 'px'
+        $noteTitle.textContent = item.label;
+        $noteText.textContent = item.note;
+        $note.style.display = 'block';
     }
 
-    // system.on('planet:click', planet => {
-    //     showNote(planet);
-    // })
-    //
-    // system.on('moon:click', moon => {
-    //     showNote(moon);
-    // })
+    function hideNote () {
+        $note.style.display = 'none';
+    }
+
+    function outsideNote (event) {
+        console.log('outsideNote')
+        let parent = event.target;
+        while (parent) {
+            if (parent === $note) return;
+            parent = parent.parentNode;
+        }
+        hideNote();
+    }
+
+    system.on('click', showNote);
+    $noteClose.addEventListener('click', hideNote);
+    document.addEventListener('click', outsideNote, true);
 
 
 

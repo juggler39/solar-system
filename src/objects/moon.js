@@ -84,6 +84,10 @@ export default class Moon {
             this.system.emit('moon:leave', this);
         })
 
+        this.$node.addEventListener('click', () => {
+            this.system.emit('click', this);
+        })
+
 
         // event listeners
 
@@ -136,6 +140,7 @@ export default class Moon {
         // render
 
         this.setOpacity();
+        this.setTransform();
 
     }
 

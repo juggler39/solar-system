@@ -88,8 +88,8 @@ export default class Planet {
         })
 
         this.$node.addEventListener('click', () => {
-            if (this.active) return; // show note
-            this.system.emit('activate', this);
+            if (this.active) this.system.emit('click', this);
+            else this.system.emit('activate', this);
         })
 
 

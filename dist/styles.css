@@ -184,9 +184,11 @@ section {
 
 .note {
     display: none;
-    position: absolute;
+    position: fixed;
     width: 300px;
+    transform: translate(-50%, -50%);
     background: #FFFFFF;
+    color: #222222;
     border: 2px solid #0A69D2;
     box-shadow: 0 4px 4px rgba(34, 34, 34, 0.16);
     padding: 24px;
@@ -200,6 +202,7 @@ section {
     color: #0A69D2;
     margin-bottom: 16px;
     font-size: inherit;
+    flex-grow: 1;
 }
 .note-title a {
     margin-left: 16px;

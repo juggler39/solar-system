@@ -124,13 +124,11 @@ export default class Planet {
                 this.active = true;
                 this.$node.classList.add('active');
                 this.move(0, this.system.options.sizes.sun / this.size);
-                if (!this.system.paused) this.spin.pause();
             }
             else {
                 this.active = false;
                 this.$node.classList.remove('active');
                 this.move(this.system.activeOrbitSizes[this.orbit.index + 1] / 2, 1);
-                if (!this.system.paused) this.spin.resume();
             }
         })
 

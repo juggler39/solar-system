@@ -72,10 +72,27 @@ export default class Moon {
         })
 
 
+        // DOM listeners
+
+        this.$node.addEventListener('mouseenter', () => {
+            if (!this.planet.active) return;
+            this.system.emit('moon:enter', this);
+        })
+
+        this.$node.addEventListener('mouseleave', () => {
+            if (!this.planet.active) return;
+            this.system.emit('moon:leave', this);
+        })
+
+
         // event listeners
 
         this.system.on('pause', () => {
             this.spin.pause();
+        })
+
+        this.system.on('resume', () => {
+            this.spin.play();
         })
 
         this.system.on('timescale', value => {
@@ -104,6 +121,16 @@ export default class Moon {
             this.move(this.system.normalOrbitSizes.moon / 2, 1);
             this.fade.reverse();
         })
+
+        this.system.on('moon:enter', moon => {
+            if (!moon.planet.moons.includes(this)) return;
+            if (!this.system.paused) this.spin.pause();
+        });
+
+        this.system.on('moon:leave', moon => {
+            if (!moon.planet.moons.includes(this)) return;
+            if (!this.system.paused) this.spin.resume();
+        });
 
 
         // render

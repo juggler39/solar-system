@@ -39,7 +39,6 @@ export default function (scene) {
         const e = getEvent(event);
         scene.x = drag.sceneX + e.clientX - drag.clientX;
         scene.y = drag.sceneY + e.clientY - drag.clientY;
-        console.log(scene.x)
         scene.render();
         event.preventDefault();
     }

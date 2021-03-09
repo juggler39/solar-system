@@ -138,6 +138,10 @@ export default class Planet {
             if (!this.system.paused) this.spin.resume();
         });
 
+        this.system.on('camera', () => {
+            if (this.system.paused) this.setTransform();
+        });
+
         
     }
 

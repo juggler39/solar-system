@@ -34,14 +34,10 @@ export default class Planet {
 
         // create moon orbit
 
-        this.moonOrbit = {};
-        // this.moonOrbit = new MoonOrbit({
-        //     index: this.orbit.index,
-        //     class: `ps-planet-${this.index} ps-planet-ring`,
-        //     origin: this,
-        //     size: this.system.normalOrbitSizes.moon,
-        //     system: this.system
-        // })
+        this.moonOrbit = new MoonOrbit({
+            planet: this,
+            system: this.system
+        })
 
 
         // create moons
@@ -58,7 +54,7 @@ export default class Planet {
 
         // create nodes
 
-        this.$node = Utils.createNode(`ps-item ps-planet ps-planet-${this.index} ps-ring-${this.orbit.index}`, this.size);
+        this.$node = Utils.createNode(`ps-item ps-planet ps-planet-${this.index} ps-orbit-${this.orbit.index}`, this.size);
         this.$image = Utils.createImage(this.image);
         this.$label = Utils.createLabel(this.label);
         this.$node.appendChild(this.$image);
@@ -75,7 +71,6 @@ export default class Planet {
             ease: Power0.easeNone,
             onUpdate: () => {
                 this.setTransform();
-                if (this.moonOrbit.opacity) this.moonOrbit.setTransform();
             }
         });
 
@@ -125,63 +120,21 @@ export default class Planet {
         this.system.on('activate', planet => {
             if (planet === this) {
                 this.active = true;
-                this.setDistance(0);
+                this.move(0);
                 if (!this.system.paused) this.spin.pause();
             }
             else {
                 this.active = false;
-                this.setDistance(this.system.activeOrbitSizes[this.orbit.index + 1] / 2);
+                this.move(this.system.activeOrbitSizes[this.orbit.index + 1] / 2);
                 if (!this.system.paused) this.spin.resume();
             }
         })
 
-
-        // // mouseenter listener
-        //
-        // this.$node.addEventListener('mouseenter', () => {
-        //     this.orbit.planets.forEach(planet => planet.spin.pause());
-        //     this.moonOrbit.setTransform();
-        //     this.moonOrbit.fade.play();
-        //     this.moons.forEach(moon => moon.fade.play());
-        // })
-        //
-        //
-        // // mouseleave listener
-        //
-        // this.$node.addEventListener('mouseleave', () => {
-        //     this.orbit.planets.forEach(planet => {
-        //         if (!planet.active) planet.spin.play();
-        //     });
-        //     if (!this.active) {
-        //         this.moonOrbit.fade.reverse();
-        //         this.moons.forEach(moon => moon.fade.reverse());
-        //     }
-        // })
-        //
-        //
-        // // click listener
-        //
-        // this.$node.addEventListener('click', () => {
-        //     this.system.emit('activate', this);
-        // })
-        //
-        // this.system.on('activate', planet => {
-        //     if (planet === this) {
-        //         this.active = true;
-        //         this.spin.pause();
-        //         this.setDistance(0);
-        //         // move to the center
-        //     }
-        //     else {
-        //         this.active = false;
-        //         this.spin.resume();
-        //         this.setDistance(this.system.activeOrbitSizes[this.orbit.index + 1] / 2);
-        //     }
-        // });
-        //
-        // this.system.on('deactivate', planet => {
-        //
-        // });
+        this.system.on('deactivate', () => {
+            this.active = false;
+            this.move(this.system.normalOrbitSizes[this.orbit.index] / 2);
+            if (!this.system.paused) this.spin.resume();
+        });
 
         
     }
@@ -192,14 +145,13 @@ export default class Planet {
     // Helpers
     // ----------------------
 
-    setDistance (distance) {
-        this.translate && this.translate.kill();
-        this.translate = gsap.to(this, {
+    move (distance) {
+        this._move && this._move.kill();
+        this._move = gsap.to(this, {
             duration: this.system.options.durations.translate,
             distance,
             onUpdate: () => {
                 this.setTransform();
-                if (this.moonOrbit.opacity) this.moonOrbit.setTransform();
             }
         });
     }

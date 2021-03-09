@@ -19,13 +19,13 @@ export default function (scene) {
         const sceneWidth = scene.system.$scene.offsetWidth;
         const sceneHeight = scene.system.$scene.offsetHeight;
 
-        scene.value = 0;
+        scene.zoom = 0.4;
         scene.minScale = Math.min(freeWidth / sceneWidth, freeHeight / sceneHeight);
         scene.maxScale = Math.min(freeWidth, freeHeight) / 2 / scene.system.options.sizes.sun;
 
         scene.x = (freeWidth - sceneWidth * scene.scale) / 2;
         scene.y = (freeHeight - sceneHeight * scene.scale) / 2;
-        scene.system.emit('zoom', scene.value);
+        scene.system.emit('zoom', scene.zoom);
 
     }
 

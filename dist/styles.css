@@ -242,3 +242,48 @@ section {
 }
 
 
+
+/*
+    Planetary system
+*/
+
+.ps-canvas--orbits .ps-orbit {
+    border: 2px dashed #CAE1FE;
+}
+.ps-item {
+    text-align: center;
+}
+.ps-item img {
+    position: absolute;
+    top: 0;
+    left: 50%;
+    height: 100%;
+    transform: translateX(-50%);
+}
+.ps-item p {
+    position: absolute;
+    top: 100%;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #D2E5FF;
+    color: #000;
+    border: 1px solid #FFFFFF;
+    border-radius: 2px;
+    text-align: center;
+    margin-top: 3px;
+    font-size: 6px;
+    padding: 3px;
+    transition: color .3s, background .3s, border-color .3s;
+}
+.ps-item.active p,
+.ps-item.hovered p {
+    background: #0A69D2;
+    color: #FFFFFF;
+    border-color: #9FC5F1
+}
+.ps-moon p {
+    transform: translateX(-50%) scale(0.5);
+    transform-origin: 50% 0;
+}
+
+

@@ -76,11 +76,13 @@ export default class Moon {
 
         this.$node.addEventListener('mouseenter', () => {
             if (!this.planet.active) return;
+            this.$node.classList.add('hovered');
             this.system.emit('moon:enter', this);
         })
 
         this.$node.addEventListener('mouseleave', () => {
             if (!this.planet.active) return;
+            this.$node.classList.remove('hovered');
             this.system.emit('moon:leave', this);
         })
 

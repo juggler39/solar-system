@@ -6,7 +6,6 @@
 .ps-scene {
     position: relative;
     transform-origin: 0 0;
-    outline: 1px solid #F00;
 }
 .ps-canvas {
     position: absolute;
@@ -28,99 +27,7 @@
 /* rings */
 
 .ps-canvas--orbits .ps-orbit {
-    border: 2px dashed #CAE1FE;
     pointer-events: none;
 }
-/*.ps-canvas--orbits .ps-orbit-0 {*/
-/*    display: none;*/
-/*}*/
-/*.ps-canvas--orbits .ps-planet-orbit {*/
-/*    opacity: 0.1;*/
-/*    transition: opacity .3s;*/
-/*}*/
-/*.ps-canvas--orbits .ps-planet-orbit.active,*/
-/*.ps-canvas--orbits .ps-planet-orbit.selected {*/
-/*    opacity: 1;*/
-/*}*/
-
-
-/*!* sun *!*/
-
-/*.ps-canvas--planets .ps-orbit-0.ps-planet-0 p {*/
-/*    background: #FF0;*/
-/*}*/
-
-
-/*!* items *!*/
-
-.ps-item img {
-    position: absolute;
-    top: 0;
-    left: 50%;
-    height: 100%;
-    transform: translateX(-50%);
-}
-.ps-item p {
-    display: none;
-}
-
-
-/*!* planet *!*/
-
-/*.ps-planet {*/
-/*    text-align: center;*/
-/*}*/
-/*.ps-planet p {*/
-/*    position: absolute;*/
-/*    top: 100%;*/
-/*    left: 50%;*/
-/*    margin-top: 4px;*/
-/*    transform: translateX(-50%);*/
-/*    background: #D2E5FF;*/
-/*    border: 1px solid #FFFFFF;*/
-/*    border-radius: 2px;*/
-/*    font-size: 6px;*/
-/*    text-align: center;*/
-/*    padding: 2px 4px;*/
-/*    transition: color .3s, background .3s, border-color .3s;*/
-/*}*/
-/*.ps-planet.active p,*/
-/*.ps-planet.selected p {*/
-/*    background: #0A69D2;*/
-/*    color: #FFFFFF;*/
-/*    border-color: #9FC5F1*/
-/*}*/
-/*.ps-planet.disable {*/
-/*    opacity: 0;*/
-/*}*/
-
-
-/*!* moon *!*/
-
-/*.ps-moon {*/
-/*    opacity: 0;*/
-/*    transition: opacity .3s;*/
-/*}*/
-/*!*.ps-moon.ps-orbit-1.ps-planet-0 {*!*/
-/*!*    opacity: 1;*!*/
-/*!*}*!*/
-/*.ps-moon p {*/
-/*    position: absolute;*/
-/*    top: 100%;*/
-/*    left: 50%;*/
-/*    margin-top: 4px;*/
-/*    transform: translateX(-50%);*/
-/*    background: #D2E5FF;*/
-/*    border: 1px solid #FFFFFF;*/
-/*    border-radius: 2px;*/
-/*    font-size: 4px;*/
-/*    text-align: center;*/
-/*    padding: 2px 4px;*/
-/*    transition: color .3s, background .3s, border-color .3s;*/
-/*}*/
-/*.ps-moon.active,*/
-/*.ps-moon.selected {*/
-/*    opacity: 1;*/
-/*}*/
 
 

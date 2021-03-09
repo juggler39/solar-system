@@ -79,10 +79,12 @@ export default class Planet {
 
         this.$node.addEventListener('mouseenter', () => {
             if (this.active) return;
+            this.$node.classList.add('hovered');
             this.system.emit('enter', this);
         })
 
         this.$node.addEventListener('mouseleave', () => {
+            this.$node.classList.remove('hovered');
             if (this.active) return;
             this.system.emit('leave', this);
         })
@@ -120,11 +122,13 @@ export default class Planet {
         this.system.on('activate', planet => {
             if (planet === this) {
                 this.active = true;
+                this.$node.classList.add('active');
                 this.move(0, this.system.options.sizes.sun / this.size);
                 if (!this.system.paused) this.spin.pause();
             }
             else {
                 this.active = false;
+                this.$node.classList.remove('active');
                 this.move(this.system.activeOrbitSizes[this.orbit.index + 1] / 2, 1);
                 if (!this.system.paused) this.spin.resume();
             }

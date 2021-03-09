@@ -105,18 +105,22 @@
     // ----------------------
 
     const $nav = document.getElementById('nav');
+    let $links = [];
 
-    // system.orbits.forEach(orbit => {
-    //     orbit.planets.forEach(planet => {
-    //         if (!planet.title) return;
-    //         const $link = document.createElement('a')
-    //         $link.textContent = planet.title;
-    //         $link.addEventListener('click', () => planet.select());
-    //         $nav.appendChild($link);
-    //     })
-    // })
+    system.orbits.forEach(orbit => {
+        orbit.planets.forEach(planet => {
+            const $link = document.createElement('a')
+            $link.className = 'u-btn';
+            $link.textContent = planet.label;
+            $link.addEventListener('click', () => planet.$node.click());
+            $nav.appendChild($link);
+            $links[orbit.index] = $links[orbit.index] || [];
+            $links[orbit.index][planet.index] = $link;
+        })
+    })
 
-    // system.on('planet:select', planet => {
+    // system.on('activate', planet => {
+    //     $links[planet.orbit.index][planet.index]
     // })
     //
     // system.on('planet:deselect', planet => {

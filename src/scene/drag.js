@@ -11,13 +11,24 @@ export default function (scene) {
 
 
     // ----------------------
+    // Helpers
+    // ----------------------
+
+    function getEvent (event) {
+        return event.touches && event.touches[0] || event.changedTouches && event.changedTouches[0] || event;
+    }
+
+
+
+    // ----------------------
     // Handlers
     // ----------------------
 
     function start (event) {
+        const e = getEvent(event);
         drag = {
-            clientX: event.clientX,
-            clientY: event.clientY,
+            clientX: e.clientX,
+            clientY: e.clientY,
             sceneX: scene.x,
             sceneY: scene.y
         }
@@ -25,9 +36,12 @@ export default function (scene) {
 
     function move (event) {
         if (!drag) return;
-        scene.x = drag.sceneX + event.clientX - drag.clientX;
-        scene.y = drag.sceneY + event.clientY - drag.clientY;
+        const e = getEvent(event);
+        scene.x = drag.sceneX + e.clientX - drag.clientX;
+        scene.y = drag.sceneY + e.clientY - drag.clientY;
+        console.log(scene.x)
         scene.render();
+        event.preventDefault();
     }
 
     function end () {
@@ -44,6 +58,10 @@ export default function (scene) {
     document.addEventListener('mousemove', move);
     document.addEventListener('mouseup', end);
     document.addEventListener('mouseleave', end);
+    scene.system.$node.addEventListener('touchstart', start);
+    document.addEventListener('touchmove', move);
+    document.addEventListener('touchend', end);
+    document.addEventListener('touchcancel', end);
 
 
 }

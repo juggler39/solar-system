@@ -87,13 +87,13 @@
     const $d3 = document.getElementById('d3');
 
     $d2.addEventListener('click', () => {
-        system.setCamera({ angle: 0 });
+        system.setCamera({ ...planetaryConfig.camera, angle: 0 });
         $d2.classList.add('u-hidden');
         $d3.classList.remove('u-hidden');
     })
 
     $d3.addEventListener('click', () => {
-        system.setCamera(planetaryConfig.camera);
+        system.setCamera({ ...planetaryConfig.camera });
         $d3.classList.add('u-hidden');
         $d2.classList.remove('u-hidden');
     })

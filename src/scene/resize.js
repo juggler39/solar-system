@@ -25,6 +25,7 @@ export default function (scene) {
 
         scene.x = (freeWidth - sceneWidth * scene.scale) / 2;
         scene.y = (freeHeight - sceneHeight * scene.scale) / 2;
+        scene.render();
         scene.system.emit('zoom', scene.zoom);
 
     }
@@ -37,7 +38,7 @@ export default function (scene) {
 
     resize();
     window.addEventListener('resize', resize);
-
+    scene.system.on('camera', resize);
 
 
 }

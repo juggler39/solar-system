@@ -20,11 +20,9 @@ export default class Scene {
         this.system = system;
         this.padding = {};
 
-        resize(this);
         drag(this);
         wheel(this);
-
-        this.render();
+        resize(this);
 
     }
 

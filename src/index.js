@@ -16,6 +16,7 @@ export default class PlanetarySystem {
     constructor ($node, options) {
 
         this.options = options;
+        this.listeners = [];
 
 
         // create nodes
@@ -35,7 +36,6 @@ export default class PlanetarySystem {
         this.setCamera(options.camera);
         this.normalOrbitSizes = this.getOrbitSizes(this.maxOrbit);
         this.activeOrbitSizes = this.getOrbitSizes(this.maxOrbit + 1);
-        this.listeners = [];
         this.active = null;
         this.paused = false;
         this.timeScale = 1;
@@ -101,6 +101,7 @@ export default class PlanetarySystem {
         this.$scene.style.width = this.options.sizes.canvas + 'px';
         this.$scene.style.height = Utils.getSceneHeight(this.options.sizes.canvas, camera) + 'px';
         this.camera = camera;
+        this.emit('camera', camera);
     }
 
 

@@ -67,6 +67,9 @@ export default class MoonOrbit {
             this.fade.reverse();
         })
 
+
+        // render
+
         this.setOpacity();
 
     }

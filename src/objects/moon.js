@@ -68,7 +68,7 @@ export default class Moon {
             },
             onReverseComplete: () => {
                 this.spin.pause();
-            },
+            }
         })
 
 
@@ -76,6 +76,10 @@ export default class Moon {
 
         this.system.on('pause', () => {
             this.spin.pause();
+        })
+
+        this.system.on('timescale', value => {
+            this.spin.timeScale(value);
         })
 
         this.system.on('enter', planet => {
@@ -86,11 +90,44 @@ export default class Moon {
             if (planet.moons.includes(this)) this.fade.reverse();
         })
 
-        this.setOpacity();
+        this.system.on('activate', planet => {
+            if (planet.moons.includes(this)) {
+                this.move(this.system.activeOrbitSizes[0] / 2);
+            }
+            else {
+                this.move(this.system.activeOrbitSizes.moon / 2);
+                this.fade.reverse();
+            }
+        })
 
+        this.system.on('deactivate', () => {
+            this.move(this.system.normalOrbitSizes.moon / 2);
+            this.fade.reverse();
+        })
+
+
+        // render
+
+        this.setOpacity();
 
     }
 
+
+    // ----------------------
+    // Helpers
+    // ----------------------
+
+    move (distance) {
+        this._move && this._move.kill();
+        this._move = gsap.to(this, {
+            duration: this.system.options.durations.translate,
+            distance,
+            onUpdate: () => {
+                if (!this.opacity) return;
+                this.setTransform();
+            }
+        });
+    }
 
 
 

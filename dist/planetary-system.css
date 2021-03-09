@@ -1,0 +1,37 @@
+
+/*
+    System
+*/
+
+.ps-scene {
+    position: relative;
+    transform-origin: 0 0;
+    user-select: none;
+}
+.ps-canvas {
+    position: absolute;
+    left: 0;
+    bottom: 0;
+    width: 100%;
+    padding-top: 100%;
+    transform-style: preserve-3d;
+}
+.ps-canvas > * {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    border-radius: 50%;
+}
+
+
+/* rings */
+
+.ps-canvas--orbits .ps-orbit {
+    pointer-events: none;
+}
+
+
+
+
+/*# sourceMappingURL=planetary-system.css.map*/

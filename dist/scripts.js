@@ -114,20 +114,20 @@
             $link.textContent = planet.label;
             $link.addEventListener('click', () => planet.$node.click());
             $nav.appendChild($link);
+            $links.push($link);
             $links[orbit.index] = $links[orbit.index] || [];
             $links[orbit.index][planet.index] = $link;
         })
     })
 
-    // system.on('activate', planet => {
-    //     $links[planet.orbit.index][planet.index]
-    // })
-    //
-    // system.on('planet:deselect', planet => {
-    //     Array.from($nav.children).forEach($link => {
-    //
-    //     })
-    // })
+    system.on('activate', planet => {
+        $links.flat().forEach($link => $link.classList.remove('active'));
+        $links[planet.orbit.index][planet.index].classList.add('active');
+    })
+
+    system.on('deactivate', planet => {
+        $links.flat().forEach($link => $link.classList.remove('active'));
+    })
 
 
 

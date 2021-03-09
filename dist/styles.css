@@ -259,6 +259,7 @@ section {
     left: 50%;
     height: 100%;
     transform: translateX(-50%);
+    pointer-events: none;
 }
 .ps-item p {
     position: absolute;
